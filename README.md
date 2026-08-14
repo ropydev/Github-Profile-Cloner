@@ -12,12 +12,12 @@
 <br>
 
 <b>Funciones Actuales</b>
-<p>El script es una base minima, hasta ahora solo automatiza el clonamiento de <b>repositorios</b> y <b>commits</b> de un perfil a una carpeta local y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado.</p>
+<p>El script es una base minima, hasta ahora solo automatiza el clonamiento de <b>repositorios</b> y <b>commits</b> de un perfil a una carpeta local y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email.</p>
 
 <br>
 
 <b>Funciones Futuras</b>
-<p>Esta pensado que el script clone tambien la foto de perfil, descrpcion, nombre entre otros datos basicos para lograr el clonamiento mas efectivo posible.</p>
+<p>.</p>
 
 <hr>
 

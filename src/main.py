@@ -9,6 +9,7 @@ import requests
 import subprocess
 import os
 import argparse
+import shutil
 
 # Colors
 Red = "\033[1m\033[31m"
@@ -102,11 +103,33 @@ def pushMirror(token: str, owner: str, repo: str, path: str):
     subprocess.run(["git", "push", "--mirror", "origin"], check=True)
 
 
+def updateInfo(token, owner):
+    url = "https://api.github.com/user"
+    headers = {"Authorization": f"token {token}"}
+    resp = requests.get(f"https://api.github.com/users/{owner}")
+    userData = resp.json()
+    data = {
+        "name": userData.get("name"),
+        "bio": userData.get("bio"),
+        "blog": userData.get("blog"),
+        "company": userData.get("company"),
+        "location": userData.get("location"),
+        "email": userData.get("email"),
+        "hireable": userData.get("hireable"),
+        "twitter_username": userData.get("twitter_username")
+    }
+    resp = requests.patch(url, headers=headers, json=data)
+    if resp.status_code == 200:
+        print(f"{Green}[+]{Reset} Se cambio correctamente la info del perfil.")
+    else:
+        print(f"{Red}[!]{Reset} Ocurrio un error inesperado y desconocido ({resp.status_code})")
+
 
 def cloneProfile(owner, folder, token, user):
     try:
+        updateInfo(token, owner)
         if os.path.exists(clonePath):
-            os.rmdir(clonePath)
+            shutil.rmtree(clonePath)
         repos = getRepos(owner)
         for repo in repos:
             cloneMirror(repo, folder)
