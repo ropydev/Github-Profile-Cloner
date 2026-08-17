@@ -159,9 +159,50 @@ def removeRepos(token):
     print(f"Se borraron todos los repositorios correctamente")
 
 
+def getStars(user):
+    url = f"https://api.github.com/users/{user}/starred"
+    resp = requests.get(url)
+    if resp.status_code != 200:
+        raise Exception(f"Error al obtener stars: {resp.status_code}")
+    repos = resp.json()
+    repos = [ repo["full_name"] for repo in repos ]
+    return repos
+
+def addStars(token, owner):
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}"
+    }
+    repos = getStars(owner)
+    for repo in repos:
+        star_url = f"https://api.github.com/user/starred/{repo}"
+        
+        r = requests.put(star_url, headers=headers)
+        if r.status_code == 204:
+            pass
+        else:
+            print(f"{Red}[!]{Reset} Error al dar star a {repo}: {r.status_code}")
+
+def removeStars(token, owner):
+    repos = getStars(owner)
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}"
+    }
+    for repo in repos:
+        star_url = f"https://api.github.com/user/starred/{repo}"
+        r = requests.delete(star_url, headers=headers)
+        if r.status_code == 204:
+            pass
+        else:
+            print(f"{Red}[!]{Reset} Error al eliminar star de {repo}: {r.status_code}")
+
+
 def cloneProfile(owner, folder, token, user, email):
     try:
         removeRepos(token)
+        removeStars(token, user)
+        addStars(token, owner)
         updateInfo(token, owner)
         if os.path.exists(clonePath):
             shutil.rmtree(clonePath)
