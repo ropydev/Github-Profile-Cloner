@@ -1,5 +1,9 @@
 <h1>Github-Profile-Cloner</h1>
 
+<div align="center">
+    <img src="img/logo.png" width="200">
+</div>
+
 <h3>Descripcion</h3>
 <p><b>Github-Profile-Cloner</b> es una herramienta para clonar completamente un perfil de <b>Github</b> a otro en segundos. Repos completos, Commits, Readme del perfil etc..., clona cualquier perfil de <b>Github</b> a uno tuyo propio</p>
 
@@ -7,7 +11,7 @@
 
 <h3>Funciones actuales/futuras y Version del script</h3>
 
-<b>Version actual: 0.5</b>
+<b>Version actual: v1.0</b>
 
 <br>
 
@@ -78,22 +82,26 @@ Recalco que la version web es menos precisa y menos estable</p>
 
 ```text
 .
+├── examples
+│   └── web.png
 ├── LICENSE
 ├── README.md
 ├── requirements.txt
 └── src
     ├── console
-    │   └── main.py
+    │   └── main.py
     ├── lib
-    │   ├── GithubProfileCloner.py
-    │   └── __init__.py
+    │   ├── GithubProfileCloner.py
+    │   └── __init__.py
     └── web
-        └── app.py
-
-5 directories, 7 files
+        ├── app.py
+        ├── img
+        │   └── github-logo-G.png
+        └── static
+            └── index.html
 ```
 
-<p>El "proyecto" esta ordenado originalmente en 5 directorios y 7 archivos, en la raiz, LICENSE (la Licencia MIT), README.md (la documentacion, este archivo), requirements.txt (Las dependencias), src (Donde esta todo el codigo), src/console/main.py (el archivo que ejecuta la herramienta en consola), src/lib/GithubProfileCloner.py (La base de todo, la libreria donde funciona todas las peticiones, funciones y basicamente todo), src/lib/__init__.py (archivo que hace que la libreria sea interpretada como tal), src/web/app.py (La version web de la herramienta, poco estable)</p>
+<p>El "proyecto" esta ordenado originalmente en 8 directorios y 10 archivos, en la raiz, LICENSE (la Licencia MIT), README.md (la documentacion, este archivo), requirements.txt (Las dependencias), example (Donde se encuentran imagenes png de como se ve cada version), src (Donde esta todo el codigo), src/console/main.py (el archivo que ejecuta la herramienta en consola), src/lib/GithubProfileCloner.py (La base de todo, la libreria donde funciona todas las peticiones, funciones y basicamente todo), src/lib/__init__.py (archivo que hace que la libreria sea interpretada como tal), src/web/app.py (La version web de la herramienta)</p>
 
 <br>
 

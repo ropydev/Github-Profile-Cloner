@@ -1,3 +1,9 @@
+#!/bin/python3
+
+# Built with Love.
+# Console version
+# python -m src.console.main -o owner -u user -t token
+
 from ..lib import GithubProfileCloner
 import argparse
 import subprocess
@@ -46,9 +52,13 @@ def main():
         token = args.token
         user = args.user
         if args.version:
-            print("v0.2")
+            versionMsg = """Version v1.0 (16/08/2026) | Ronald Bello (ropydev)
+https://github.com/ropydev/Github-Profile-Cloner"""
+            print(versionMsg)
         elif owner and token and user:
             printLogo(Blue)
+            decoration = f"+--{'-'*len(token)}--+\n"
+            print(Blue+decoration+f"Token = {token[0:4] + '*'*(len(token)-4)}\nOwner = {owner}\nUser = {user}\n"+decoration+Reset)
             GithubProfileCloner.cloneProfile(
                 owner, GithubProfileCloner.clonePath, token, user
             )

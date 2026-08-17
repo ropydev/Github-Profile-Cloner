@@ -3,7 +3,7 @@
 # Built with Love.
 # Author: ropydev
 # Github: https://github.com/ropydev/Github-Profile-Cloner
-# v0.5 - (15/08/2026)
+# v1.0 - (16/08/2026)
 
 import requests
 import subprocess
