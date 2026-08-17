@@ -16,7 +16,7 @@
 <br>
 
 <b>Funciones Actuales</b>
-<p>La herramienta, hasta ahora solo automatiza el clonamiento de <b>repositorios</b> y <b>commits</b> de un perfil a una carpeta local y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email.</p>
+<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b> y <b>commits</b> de un perfil a una carpeta local y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email.</p>
 
 <br>
 
@@ -47,15 +47,15 @@ pip install -r requirements.txt
 <b>Uso en consola (ubicado en Github-Profile-Cloner/)</b>
 
 ```bash
-python -m src.console.main -o owner -t token -u user
+python -m src.console.main -o owner -t token -u user -e email
 ```
 
-<p>Para ejecutarlo correctamente ejecute ese codigo cambiando "owner" por el usuario que se va a clonar, "token" por el token ya copiado y "user" por el usuario al que se le va a enviar todo lo clonado. Importante el "user" tiene que ser el mismo al que pertenece el "token" y "owner" puede ser cualquier usuario deseado</p>
+<p>Para ejecutarlo correctamente ejecute ese codigo cambiando "owner" por el usuario que se va a clonar, "token" por el token ya copiado, "user" por el usuario al que se le va a enviar todo lo clonado y "email" por el email del user. Importante el "user" tiene que ser el mismo al que pertenece el "token" y "owner" puede ser cualquier usuario deseado</p>
 
 Ejemplo falso:
 
 ```bash
-./src/main.py -o mouredev -t ghp_abcdefghijklmn1bcdefghi2c3d4e5f6g7h8i9j0 -u octocat
+./src/main.py -o mouredev -t ghp_abcdefghijklmn1bcdefghi2c3d4e5f6g7h8i9j0 -u octocat -e email@example.com
 ```
 
 <b>Uso en web (ubicado en Github-Profile-Cloner/)</b>
@@ -68,6 +68,7 @@ python -m src.web.app
 En el primero, el usuario original
 En el segundo, el usuario a donde se va a clonar
 En el tercero, el token previamente copiado
+En el cuarto, el email del user
 <br>
 Recalco que la version web es menos precisa y menos estable</p>
 <br>

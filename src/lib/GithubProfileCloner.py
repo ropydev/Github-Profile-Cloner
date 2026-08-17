@@ -52,38 +52,44 @@ def getRepos(owner: str) -> list:
     return repos
 
 
-def cloneMirror(repo: str, destPath: str):
+def cloneMirror(repo: str, destPath: str, name: str, email: str):
     try:
         url = f"https://github.com/{repo}"
         os.makedirs(destPath, exist_ok=True)
+        repo_name = repo.split("/")[1]
+        repo_path = os.path.join(destPath, repo_name)
+
         subprocess.run(
-            [
-                "git",
-                "clone",
-                "--mirror",
-                url,
-                os.path.join(destPath, repo.split("/")[1]),
-            ],
+            ["git", "clone", "--mirror", url, repo_path],
             check=True,
         )
-        print(
-            f"{Green}[+]{Reset} Se clono con exito el repositorio https://github.com/{repo}"
+        print(f"{Green}[+]{Reset} Se clonó con éxito el repositorio https://github.com/{repo}")
+
+        os.chdir(repo_path)
+        env_filter = (
+            f'export GIT_AUTHOR_NAME="{name}"; '
+            f'export GIT_AUTHOR_EMAIL="{email}"; '
+            f'export GIT_COMMITTER_NAME="{name}"; '
+            f'export GIT_COMMITTER_EMAIL="{email}";'
         )
+        subprocess.run(["git", "filter-branch", "--env-filter", env_filter, "--", "--all"], check=True)
+        print(f"{Green}[+]{Reset} Commits reescritos con autor {name} <{email}>")
+
     except Exception as e:
-        print(
-            f"{Red}[!]{Reset} Ocurrio un error clonando el repositorio https://github.com/{repo}"
-        )
+        print(f"{Red}[!]{Reset} Ocurrió un error clonando o reescribiendo el repositorio https://github.com/{repo}")
 
 
-def pushMirror(token: str, owner: str, repo: str, path: str):
+def pushMirror(token: str, owner: str, repo: str, path: str, user: str):
     url = "https://api.github.com/user/repos"
     headers = {"Authorization": f"token {token}"}
+    repo = owner if repo == user else repo
     data = {"name": repo, "private": False, "description": ""}
 
     urlRepo = f"https://api.github.com/repos/{owner}/{repo}"
     resp = requests.get(urlRepo, headers=headers)
     if resp.status_code == 200:
         deleteResp = requests.delete(urlRepo, headers=headers)
+
     resp = requests.post(url, headers=headers, json=data)
     if resp.status_code == 201:
         print(f"{Green}[+]{Reset} Repositorio creado con éxito")
@@ -91,6 +97,7 @@ def pushMirror(token: str, owner: str, repo: str, path: str):
     else:
         print("Error al crear repo:", resp.json())
         exit()
+
     os.chdir(path)
     subprocess.run(["git", "remote", "remove", "origin"], check=False)
     subprocess.run(
@@ -103,7 +110,8 @@ def pushMirror(token: str, owner: str, repo: str, path: str):
         ],
         check=True,
     )
-    subprocess.run(["git", "push", "--mirror", "origin"], check=True)
+    subprocess.run(["git", "push", "--mirror", "--force", "origin"], check=True)
+
 
 
 def updateInfo(token, owner):
@@ -111,10 +119,10 @@ def updateInfo(token, owner):
     headers = {"Authorization": f"token {token}"}
     resp = requests.get(f"https://api.github.com/users/{owner}")
     userData = resp.json()
-    bio = f"{userData.get("bio")}\n\nCloned by Github-Profile-Cloner\n(https://github.com/ropydev/Github-Profile-Cloner)"
+    bio = f"{userData.get("bio")}"
     data = {
         "name": userData.get("name"),
-        "bio": userData.get("bio"),
+        "bio": bio,
         "blog": userData.get("blog"),
         "company": userData.get("company"),
         "location": userData.get("location"),
@@ -131,22 +139,58 @@ def updateInfo(token, owner):
         )
 
 
-def cloneProfile(owner, folder, token, user):
+def removeRepos(token):
+    headers = {"Authorization": f"token {token}"}
+
+    url = "https://api.github.com/user/repos"
+    params = {"per_page": 100, "affiliation": "owner"}
+    repos = requests.get(url, headers=headers, params=params).json()
+
+    for repo in repos:
+        name = repo["name"]
+        owner = repo["owner"]["login"]
+        delete_url = f"https://api.github.com/repos/{owner}/{name}"
+        
+        resp = requests.delete(delete_url, headers=headers)
+        if resp.status_code == 204:
+            pass
+        else:
+            print(f"{Red}[-]{Reset} Error al borrar {name}: {resp.status_code} - {resp.text}")
+    print(f"Se borraron todos los repositorios correctamente")
+
+
+def cloneProfile(owner, folder, token, user, email):
     try:
+        removeRepos(token)
         updateInfo(token, owner)
         if os.path.exists(clonePath):
             shutil.rmtree(clonePath)
+
+        resp = requests.get(f"https://api.github.com/users/{owner}")
+        userData = resp.json()
+        name = userData["name"]
+
         repos = getRepos(owner)
         for repo in repos:
-            cloneMirror(repo, folder)
-            repoName = repo.split("/")[1]
-            pushMirror(
-                token, user, repoName, os.path.join(clonePath, repo.split("/")[1])
-            )
-        print(
-            f"{Green}[+]{Reset} Todos los repositorios fueron clonados a la carpeta {folder}"
-        )
+            try:
+                cloneMirror(repo, folder, name, email)
+                repoName = repo.split("/")[1]
+                pushMirror(
+                    token,
+                    user,
+                    repoName,
+                    os.path.join(clonePath, repo.split("/")[1]),
+                    owner
+                )
+                print(f"{Green}[+]{Reset} Repo procesado: {repoName}")
+            except Exception as e:
+                print(f"{Red}[!]{Reset} Error con {repo}: {e}")
+                continue
+
+        print(f"{Green}[+]{Reset} Todos los repositorios fueron clonados a la carpeta {folder}")
         return {"error": "false"}
+
     except Exception as e:
-        print(f"{Red}[!]{Reset} Ocurrio un error: {e}")
+        print(f"{Red}[!]{Reset} Ocurrió un error general: {e}")
         return {"error": "true", "msg": str(e)}
+

@@ -42,9 +42,9 @@ class MyHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html")
             self.end_headers()
-            if params.get("owner", [""])[0] and params.get("token", [""])[0] and params.get("user", [""])[0]:
+            if params.get("owner", [""])[0] and params.get("token", [""])[0] and params.get("user", [""])[0] and params.get("email", [""])[0]:
                 self.wfile.write("<h2>~$ Clonando usuario...</h2>".encode())
-                clone = GithubProfileCloner.cloneProfile(params.get("owner", [""])[0], GithubProfileCloner.clonePath, params.get("token", [""])[0], params.get("user", [""])[0])
+                clone = GithubProfileCloner.cloneProfile(params.get("owner", [""])[0], GithubProfileCloner.clonePath, params.get("token", [""])[0], params.get("user", [""])[0], params.get("email", [""])[0])
                 if clone.get("error") == "false":
                     self.wfile.write("<h2>~$ Usuario clonado correctamente.</h2>".encode())
                 elif clone.get("error") == "true":

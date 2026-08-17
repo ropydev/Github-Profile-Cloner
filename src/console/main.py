@@ -42,6 +42,7 @@ def argsParser():
         "--user",
         help="Usuario al que se le van a clonar los datos (el mismo del PAT)",
     )
+    parser.add_argument("-e", "--email", help="Email del usuario al que se le va a enviar lo clonado.")
     return parser.parse_args()
 
 
@@ -51,17 +52,22 @@ def main():
         owner = args.owner
         token = args.token
         user = args.user
+        email = args.email
         if args.version:
             versionMsg = """Version v1.0 (16/08/2026) | Ronald Bello (ropydev)
 https://github.com/ropydev/Github-Profile-Cloner"""
             print(versionMsg)
-        elif owner and token and user:
+        elif owner and token and user and email:
             printLogo(Blue)
             decoration = f"+--{'-'*len(token)}--+\n"
-            print(Blue+decoration+f"Token = {token[0:4] + '*'*(len(token)-4)}\nOwner = {owner}\nUser = {user}\n"+decoration+Reset)
-            GithubProfileCloner.cloneProfile(
-                owner, GithubProfileCloner.clonePath, token, user
-            )
+            print(Blue+decoration+f"Token = {token[0:4] + '*'*(len(token)-4)}\nOwner = {owner}\nUser = {user}\nEmail = {email}\n"+decoration+Reset)
+            confirmation = input(f"{Red}ADVERTENCIA: Este script borrara todos los repos del perfil {user} para hacer una clonacion correcta, porfavor confirme que esta acuerdo (y/N): ")
+            if confirmation.lower() == "y":
+                GithubProfileCloner.cloneProfile(
+                    owner, GithubProfileCloner.clonePath, token, user, email
+                )
+            elif confirmation.lower() == "n" or not confirmation:
+                exit(0)
         else:
             print(f"{Red}[!]{Reset} Argumentos invalidos.")
     except KeyboardInterrupt:
