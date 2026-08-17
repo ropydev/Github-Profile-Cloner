@@ -16,7 +16,7 @@
 <br>
 
 <b>Funciones Actuales</b>
-<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b> y <b>commits</b> de un perfil a una carpeta local y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email.</p>
+<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b>, modifica la historia para cambiar el autor de los <b>commits</b> y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email. Tambien extrae los repositorios a los que le dio star el usuario original y replica la accion haciendo que el perfil deseado le de star a los mismos.</p>
 
 <br>
 
@@ -55,7 +55,7 @@ python -m src.console.main -o owner -t token -u user -e email
 Ejemplo falso:
 
 ```bash
-./src/main.py -o mouredev -t ghp_abcdefghijklmn1bcdefghi2c3d4e5f6g7h8i9j0 -u octocat -e email@example.com
+./src/main.py -o mouredev -t ghp_abcdefghijklmn1bcdefghi2c3d4e5f6g7h8i9j0 -u octocat -e moure@moure.dev
 ```
 
 <b>Uso en web (ubicado en Github-Profile-Cloner/)</b>
@@ -108,10 +108,6 @@ Recalco que la version web es menos precisa y menos estable</p>
 
 <h3>Que problema soluciona?</h3>
 <p>El programa permite que una persona al perder acceso a su cuenta de github pueda clonarla automaticamente, la herramienta tambien puede clonar cualquier perfil asi que tambien funciona para "suplantar" una cuenta, no me hago cargo del uso indebido de esta herramienta.</p>
-
-<hr>
-
-<h3>Importante: La herramienta deja una marca de agua en la descripcion del perfil (marca de agua muy facil de eliminar  ;)</h3>
 
 <hr>
 <div align="center">
