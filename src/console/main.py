@@ -62,6 +62,7 @@ https://github.com/ropydev/Github-Profile-Cloner"""
             decoration = f"+--{'-'*len(token)}--+\n"
             print(Blue+decoration+f"Token = {token[0:4] + '*'*(len(token)-4)}\nOwner = {owner}\nUser = {user}\nEmail = {email}\n"+decoration+Reset)
             confirmation = input(f"{Red}ADVERTENCIA: Este script borrara todos los repos del perfil {user} para hacer una clonacion correcta, porfavor confirme que esta acuerdo (y/N): ")
+            print(Reset)
             if confirmation.lower() == "y":
                 GithubProfileCloner.cloneProfile(
                     owner, GithubProfileCloner.clonePath, token, user, email

@@ -11,12 +11,12 @@
 
 <h3>Funciones actuales/futuras y Version del script</h3>
 
-<b>Version actual: v1.0</b>
+<b>Version actual: v1.1</b>
 
 <br>
 
 <b>Funciones Actuales</b>
-<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b>, modifica la historia para cambiar el autor de los <b>commits</b> y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email. Tambien extrae los repositorios a los que le dio star el usuario original y replica la accion haciendo que el perfil deseado le de star a los mismos.</p>
+<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b>, modifica la historia para cambiar el autor de los <b>commits</b> y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email. Tambien extrae los repositorios a los que le dio star el usuario original y replica la accion haciendo que el perfil deseado le de star a los mismos, tambien extrae los usuarios que sigue la cuenta original y replica la accion siguiendo a los mismos.</p>
 
 <br>
 

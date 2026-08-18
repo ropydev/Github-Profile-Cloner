@@ -3,7 +3,7 @@
 # Built with Love.
 # Author: ropydev
 # Github: https://github.com/ropydev/Github-Profile-Cloner
-# v1.0 - (16/08/2026)
+# v1.1 - (17/08/2026)
 
 import requests
 import subprocess
@@ -156,7 +156,7 @@ def removeRepos(token):
             pass
         else:
             print(f"{Red}[-]{Reset} Error al borrar {name}: {resp.status_code} - {resp.text}")
-    print(f"Se borraron todos los repositorios correctamente")
+    print(f"{Green}[+]{Reset} Se borraron todos los repositorios correctamente")
 
 
 def getStars(user):
@@ -198,15 +198,54 @@ def removeStars(token, owner):
             print(f"{Red}[!]{Reset} Error al eliminar star de {repo}: {r.status_code}")
 
 
+def getFollowing(user):
+    url = f"https://api.github.com/users/{user}/following"
+    resp = requests.get(url).json()
+    users = [ user['login'] for user in resp ]
+    return users
+
+def unfollowUsers(token, user):
+    users = getFollowing(user)
+    headers = { "Authorization": f"token {token}" }
+    for user in users:
+        url = f"https://api.github.com/user/following/{user}"
+        resp = requests.delete(url, headers=headers)
+        if resp.status_code != 204:
+            print(f"{Red}[!]{Reset} Ocurrio un error desconocido en la peticion")
+    print(f"{Green}[+]{Reset} Se dejo de seguir a todos los usuarios")
+
+def followUsers(token, owner):
+    users = getFollowing(owner)
+    headers = { "Authorization": f"token {token}" }
+    for user in users:
+        url = f"https://api.github.com/user/following/{user}"
+        resp = requests.put(url, headers=headers)
+        if resp.status_code != 204:
+            print(f"{Red}[!]{Reset} Ocurrio un error desconocido en la peticion")
+    print(f"{Green}[+]{Reset} El seguimiento de usuarios fue correcto.")
+
+def downloadProfileimg(user):
+    url = f"https://api.github.com/users/{user}"
+    resp = requests.get(url)
+    data = resp.json()
+    avatar = data["avatar_url"]
+    img = requests.get(avatar)
+    with open(os.path.join(os.path.expanduser("~"), f"GithubProfileCloner/{user}.jpg"), "wb") as f:
+        f.write(img.content)
+    print(f"{Green}[+]{Reset} Imagen del avatar copiada correctamente a la carpeta ~/GithubProfileCloner")
+
 def cloneProfile(owner, folder, token, user, email):
     try:
         removeRepos(token)
         removeStars(token, user)
+        unfollowUsers(token, user)
         addStars(token, owner)
+        followUsers(token, owner)
         updateInfo(token, owner)
         if os.path.exists(clonePath):
             shutil.rmtree(clonePath)
 
+        downloadProfileimg(owner)
         resp = requests.get(f"https://api.github.com/users/{owner}")
         userData = resp.json()
         name = userData["name"]
