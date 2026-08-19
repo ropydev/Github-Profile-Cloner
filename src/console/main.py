@@ -43,6 +43,7 @@ def argsParser():
         help="Usuario al que se le van a clonar los datos (el mismo del PAT)",
     )
     parser.add_argument("-e", "--email", help="Email del usuario al que se le va a enviar lo clonado.")
+    parser.add_argument("--no-rewrite", action="store_true", help="No reescribe la historia de los commits")
     return parser.parse_args()
 
 
@@ -53,8 +54,9 @@ def main():
         token = args.token
         user = args.user
         email = args.email
+        rewrite = args.no_rewrite
         if args.version:
-            versionMsg = """Version v1.0 (16/08/2026) | Ronald Bello (ropydev)
+            versionMsg = """Version v1.2 (18/08/2026) | Ronald Bello (ropydev)
 https://github.com/ropydev/Github-Profile-Cloner"""
             print(versionMsg)
         elif owner and token and user and email:
@@ -65,7 +67,7 @@ https://github.com/ropydev/Github-Profile-Cloner"""
             print(Reset)
             if confirmation.lower() == "y":
                 GithubProfileCloner.cloneProfile(
-                    owner, GithubProfileCloner.clonePath, token, user, email
+                    owner, GithubProfileCloner.clonePath, token, user, email, rewrite
                 )
             elif confirmation.lower() == "n" or not confirmation:
                 exit(0)

@@ -52,7 +52,7 @@ def getRepos(owner: str) -> list:
     return repos
 
 
-def cloneMirror(repo: str, destPath: str, name: str, email: str):
+def cloneMirror(repo: str, destPath: str, name: str, email: str, norewrite: bool):
     try:
         url = f"https://github.com/{repo}"
         os.makedirs(destPath, exist_ok=True)
@@ -64,16 +64,16 @@ def cloneMirror(repo: str, destPath: str, name: str, email: str):
             check=True,
         )
         print(f"{Green}[+]{Reset} Se clonó con éxito el repositorio https://github.com/{repo}")
-
-        os.chdir(repo_path)
-        env_filter = (
-            f'export GIT_AUTHOR_NAME="{name}"; '
-            f'export GIT_AUTHOR_EMAIL="{email}"; '
-            f'export GIT_COMMITTER_NAME="{name}"; '
-            f'export GIT_COMMITTER_EMAIL="{email}";'
-        )
-        subprocess.run(["git", "filter-branch", "--env-filter", env_filter, "--", "--all"], check=True)
-        print(f"{Green}[+]{Reset} Commits reescritos con autor {name} <{email}>")
+        if not norewrite:
+            os.chdir(repo_path)
+            env_filter = (
+                f'export GIT_AUTHOR_NAME="{name}"; '
+                f'export GIT_AUTHOR_EMAIL="{email}"; '
+                f'export GIT_COMMITTER_NAME="{name}"; '
+                f'export GIT_COMMITTER_EMAIL="{email}";'
+            )
+            subprocess.run(["git", "filter-branch", "--env-filter", env_filter, "--", "--all"], check=True)
+            print(f"{Green}[+]{Reset} Commits reescritos con autor {name} <{email}>")
 
     except Exception as e:
         print(f"{Red}[!]{Reset} Ocurrió un error clonando o reescribiendo el repositorio https://github.com/{repo}")
@@ -83,7 +83,9 @@ def pushMirror(token: str, owner: str, repo: str, path: str, user: str):
     url = "https://api.github.com/user/repos"
     headers = {"Authorization": f"token {token}"}
     repo = owner if repo == user else repo
-    data = {"name": repo, "private": False, "description": ""}
+
+    description = requests.get(f"https://api.github.com/repos/{user}/{repo}").json()["description"]
+    data = {"name": repo, "private": False, "description": description}
 
     urlRepo = f"https://api.github.com/repos/{owner}/{repo}"
     resp = requests.get(urlRepo, headers=headers)
@@ -225,16 +227,19 @@ def followUsers(token, owner):
     print(f"{Green}[+]{Reset} El seguimiento de usuarios fue correcto.")
 
 def downloadProfileimg(user):
-    url = f"https://api.github.com/users/{user}"
-    resp = requests.get(url)
-    data = resp.json()
-    avatar = data["avatar_url"]
-    img = requests.get(avatar)
-    with open(os.path.join(os.path.expanduser("~"), f"GithubProfileCloner/{user}.jpg"), "wb") as f:
-        f.write(img.content)
-    print(f"{Green}[+]{Reset} Imagen del avatar copiada correctamente a la carpeta ~/GithubProfileCloner")
+    try:
+        url = f"https://api.github.com/users/{user}"
+        resp = requests.get(url)
+        data = resp.json()
+        avatar = data["avatar_url"]
+        img = requests.get(avatar)
+        with open(os.path.join(os.path.expanduser("~"), f"GithubProfileCloner/{user}.jpg"), "wb") as f:
+            f.write(img.content)
+        print(f"{Green}[+]{Reset} Imagen del avatar copiada correctamente a la carpeta ~/GithubProfileCloner")
+    except Exception:
+        return
 
-def cloneProfile(owner, folder, token, user, email):
+def cloneProfile(owner, folder, token, user, email, norewrite: bool):
     try:
         removeRepos(token)
         removeStars(token, user)
@@ -253,7 +258,7 @@ def cloneProfile(owner, folder, token, user, email):
         repos = getRepos(owner)
         for repo in repos:
             try:
-                cloneMirror(repo, folder, name, email)
+                cloneMirror(repo, folder, name, email, norewrite)
                 repoName = repo.split("/")[1]
                 pushMirror(
                     token,
