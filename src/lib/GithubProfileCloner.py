@@ -237,7 +237,7 @@ def downloadProfileimg(user):
             f.write(img.content)
         print(f"{Green}[+]{Reset} Imagen del avatar copiada correctamente a la carpeta ~/GithubProfileCloner")
     except Exception:
-        return
+        pass
 
 def cloneProfile(owner, folder, token, user, email, norewrite: bool):
     try:

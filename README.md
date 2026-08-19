@@ -4,30 +4,38 @@
     <img src="img/logo.png" width="200">
 </div>
 
-<h3>Descripcion</h3>
-<p><b>Github-Profile-Cloner</b> es una herramienta para clonar completamente un perfil de <b>Github</b> a otro en segundos. Repos completos, Commits, Readme del perfil etc..., clona cualquier perfil de <b>Github</b> a uno tuyo propio</p>
+<img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg">
+<img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-blue.svg">
+<img alt="Version" src="https://img.shields.io/badge/Version-v1.1-orange.svg">
+<img alt="Status" src="https://img.shields.io/badge/Status-Active-success.svg">
+<img alt="Contributions" src="https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg">
+<img alt="Stars" src="https://img.shields.io/github/stars/ropydev/Github-Profile-Cloner?style=social">
+<img alt="Forks" src="https://img.shields.io/github/forks/ropydev/Github-Profile-Cloner?style=social">
+
+<p><b>Github-Profile-Cloner</b> es una herramienta creada en <b>Python</b> para clonar completamente un perfil de <b>Github</b> a otro en cuestion de segundos.</p>
+
+<!-- TOC -->
+- [Instalacion](#instalacion)
+  - [Explicacion](#explicacion)
+- [Uso](#uso)
+  - [Requisitos](#requisitos)
+    - [Crear cuenta](#crear-cuenta)
+    - [Generar Token PAT (Classic)](#generar-token-pat-classic)
+  - [Uso en Terminal](#uso-en-terminal)
+    - [Explicacion](#explicacion-1)
+  - [Uso en Navegador](#uso-en-navegador)
+    - [Explicacion](#explicacion-2)
+- [Funcionamiento](#funcionamiento)
+  - [Tree (Arbol del proyecto)](#tree-arbol-del-proyecto)
+  - [Explicacion del funcionamiento](#explicacion-del-funcionamiento)
+- [Utilidad](#utilidad)
+<!-- /TOC -->
 
 <hr>
 
-<h3>Funciones actuales/futuras y Version del script</h3>
+## Instalacion
 
-<b>Version actual: v1.1</b>
-
-<br>
-
-<b>Funciones Actuales</b>
-<p>La herramienta, hasta ahora automatiza el clonamiento de <b>repositorios</b>, modifica la historia para cambiar el autor de los <b>commits</b> y atravez de un token de github (PAT) sube los repositorios y commits a el usuario deseado, tambien extrae y clona Nombre Completo, Bio, Blog, X-Account(Twitter), company, ubicacion y email. Tambien extrae los repositorios a los que le dio star el usuario original y replica la accion haciendo que el perfil deseado le de star a los mismos, tambien extrae los usuarios que sigue la cuenta original y replica la accion siguiendo a los mismos.</p>
-
-<br>
-
-<b>Funciones Futuras</b>
-<p>.</p>
-
-<hr>
-
-<h3>Instalacion y uso</h3>
-
-<p>La instalacion es muy basica, vendria siendo la misma de la mayoria de scripts de python que seria bajarse el repo, instalar las dependencias y a usarlo</p>
+Para instalar simplemente se necesia conexion a internet y ejecutar en la terminal los siguientes comandos
 
 ```bash
 git clone https://github.com/ropydev/Github-Profile-Cloner
@@ -35,51 +43,70 @@ cd Github-Profile-Cloner
 pip install -r requirements.txt
 ```
 
-<b>Uso</b>
-
-<p>Para usarlo es necesario una <b>cuenta de github</b> unicamente</p>
-<br>
-<p>En tu cuenta presiona la foto de perfil (arriba a la derecha) y cuando se abra el menu presione la opcion de Settings (o tambien llamada configuracion), en el menu lateral izquierdo vaya a lo ultimo y presione el apartado de de Developer Settings, una vez alli presione en el menu lateral la opcion "Personal Access Token" y dentro la opcion "Tokens(Classic)" una vez ahi presione "Generate new token" y ahi elija la opcion "Generate new token (Classic)" los permisos necesarios son "repo", "user", "admin" y "delete_repo", en caso de no estar seguro o recibir errores es recomendable seleccionar todos los permisos, despues presione en el boton verde llamado "Generate Token", una vez generado copielo y guardelo en un lugar seguro.</p>
-
-<br>
-<p>La herramienta cuenta con una version tanto como de terminal como web (personalmente me gusta mas la de consola, mas estable, funcional y sencilla de usar.</p>
-<br>
-<b>Uso en consola (ubicado en Github-Profile-Cloner/)</b>
+### Explicacion
+```bash
+git clone https://github.com/ropydev/Github-Profile-Cloner
+```
+Clona el repositorio en ./Github-Profile-Cloner/
 
 ```bash
-python -m src.console.main -o owner -t token -u user -e email
+cd Github-Profile-Cloner
 ```
-
-<p>Para ejecutarlo correctamente ejecute ese codigo cambiando "owner" por el usuario que se va a clonar, "token" por el token ya copiado, "user" por el usuario al que se le va a enviar todo lo clonado y "email" por el email del user. Importante el "user" tiene que ser el mismo al que pertenece el "token" y "owner" puede ser cualquier usuario deseado</p>
-
-Ejemplo falso:
+Entra en la carpeta donde esta el codigo
 
 ```bash
-./src/main.py -o mouredev -t ghp_abcdefghijklmn1bcdefghi2c3d4e5f6g7h8i9j0 -u octocat -e moure@moure.dev
+pip install -r requirements.txt
 ```
+Instala las dependencias (solo necesita requests que ya viene por defecto en algunas versiones de Python)
 
-<b>Uso en web (ubicado en Github-Profile-Cloner/)</b>
+## Uso
 
+### Requisitos
+Se necesita:
+- Cuenta de github
+- Token PAT (classic)
+
+#### Crear cuenta
+Entra a github y en el boton arriba a la derecha que dice SignUp presionelo e introdusca sus datos, recuerde el usuario y el email
+
+#### Generar Token PAT (Classic)
+Estando dentro de tu cuenta:
+- Ve a la esquina superior derecha y haz clic en tu avatar, selecciona **Settings**
+- En el menu lateral izquierdo baja hasta el final y entra en **Developer settings**
+- Selecciona **Personal access tokens** >> **Token (classic)**
+- Haz clic en **Generate new token (classic)**, confirma el acceso con tu password de github
+- Define nota (Github-Profile-Cloner), fecha de expiracion y marca los permisos necesarios (repo, user, delete_repo)
+- Genere token y guardelo en un lugar seguro
+
+### Uso en Terminal
+Dentro de la carpeta Github-Profile-Cloner ejecute:
+```bash
+python -m src.console.main -o Usuario_Original -u Cuenta_Nueva -t Token -e email@cuenta.nueva
+```
+cambiando **Usuario_Original** por la cuenta que perdiste o cuenta que quieres clonar, **Cuenta_Nueva** por la cuenta que creaste, **Token** por el token copiado recientemente, **email@cuenta.nueva** por el email con el que registraste la cuenta nueva
+
+#### Explicacion
+El comando clona el perfil completo y cambia el autor de los commits por tu usuario, en caso de que quieras que eso no suceda para matener el usuario original, use --no-rewrite al final
+
+### Uso en Navegador
+Dentro de la carpeta Github-Profile-Cloner ejecute:
 ```bash
 python -m src.web.app
 ```
+Entre en el navegador a la url *http://localhost:8000/* y rellene los campos con los datos necesarios
+- owner, el usuario original
+- user, la cuenta nueva
+- token, el token recientemente copiado
+- email, el email con el que se registro la cuenta nueva
 
-<p>Se necesita ejecutar exactamente ese codigo, se levantara un servidor web en el puerto 8000 (http://localhost:8000/), debe entrar en esa url local y en los campos owner, user y token introducir:
-En el primero, el usuario original
-En el segundo, el usuario a donde se va a clonar
-En el tercero, el token previamente copiado
-En el cuarto, el email del user
-<br>
-Recalco que la version web es menos precisa y menos estable</p>
-<br>
-
-<p>Importante ejecutarlo con el "python -m src." para su correcto funcionamiento</p>
+#### Explicacion
+Ese procedimiento clona el perfil completo y cambia el autor de los commits por tu usuario, en caso de que quieras que eso no suceda seleccione el checkbox que aparece en la pagina
 
 <hr>
 
-<h3>Funcionamiento</h3>
+## Funcionamiento
 
-<b>Tree (Arbol del proyecto)</b>
+### Tree (Arbol del proyecto)
 
 ```text
 .
@@ -102,14 +129,15 @@ Recalco que la version web es menos precisa y menos estable</p>
             └── index.html
 ```
 
-<p>El "proyecto" esta ordenado originalmente en 8 directorios y 10 archivos, en la raiz, LICENSE (la Licencia MIT), README.md (la documentacion, este archivo), requirements.txt (Las dependencias), example (Donde se encuentran imagenes png de como se ve cada version), src (Donde esta todo el codigo), src/console/main.py (el archivo que ejecuta la herramienta en consola), src/lib/GithubProfileCloner.py (La base de todo, la libreria donde funciona todas las peticiones, funciones y basicamente todo), src/lib/__init__.py (archivo que hace que la libreria sea interpretada como tal), src/web/app.py (La version web de la herramienta)</p>
+<p>El "proyecto" esta ordenado originalmente en 8 directorios y 10 archivos, en la raiz, LICENSE (la Licencia MIT), README.md (la documentacion, este archivo), requirements.txt (Las dependencias), example (Donde se encuentran imagenes png de como se ve cada version), src (Donde esta todo el codigo), src/console/main.py (el archivo que ejecuta la herramienta en consola), src/lib/GithubProfileCloner.py (La base de todo, la libreria donde funciona todas las peticiones, funciones y basicamente todo), src/lib/__init__.py (archivo que hace que la libreria sea interpretada como tal), src/web/app.py (La version web de la herramienta), src/web/img/github-logo-G.png (Logo de github en un tono verde para decoracion de la web), src/web/static/index.html (HTML5 de la web)</p>
 
-<br>
+### Explicacion del funcionamiento
+La herramienta, tanto la version de consola como la version web, dependen de la libreria local src/lib/GithubProfileCloner.py la cual hace todo el funcionamiento, esta libreria local creada desde cero por mi esta dividida en diferentes funciones, y la funcion cloneProfile(), la funcion principal que reune todas las demas y hace que se borren stars, followings y repos, agrega las stars, los followings y la info del otro usuario, descarga la imagen del perfil en una carpeta local, recorre todos los repositorios clonandolos, cambiando la historia y subiendo los repos
 
-<h3>Que problema soluciona?</h3>
-<p>El programa permite que una persona al perder acceso a su cuenta de github pueda clonarla automaticamente, la herramienta tambien puede clonar cualquier perfil asi que tambien funciona para "suplantar" una cuenta, no me hago cargo del uso indebido de esta herramienta.</p>
+## Utilidad
 
-<hr>
+El programa permite que una persona al perder acceso a su cuenta de github pueda clonarla automaticamente sin perder nada o sin estar horas y horas creando una nueva</p>
+
 <div align="center">
-    <h1><code>Built with Love</code></h1>
+    <h1><code>Built with Love (and Python)</code></h1>
 </div>
