@@ -4,13 +4,15 @@
     <img src="img/logo.png" width="200">
 </div>
 
-<img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg">
-<img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-blue.svg">
-<img alt="Version" src="https://img.shields.io/badge/Version-v1.1-orange.svg">
-<img alt="Status" src="https://img.shields.io/badge/Status-Active-success.svg">
-<img alt="Contributions" src="https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg">
-<img alt="Stars" src="https://img.shields.io/github/stars/ropydev/Github-Profile-Cloner?style=social">
-<img alt="Forks" src="https://img.shields.io/github/forks/ropydev/Github-Profile-Cloner?style=social">
+<div>
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-blue.svg">
+    <img alt="Version" src="https://img.shields.io/badge/Version-v1.1-orange.svg">
+    <img alt="Status" src="https://img.shields.io/badge/Status-Active-success.svg">
+    <img alt="Contributions" src="https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg">
+    <img alt="Stars" src="https://img.shields.io/github/stars/ropydev/Github-Profile-Cloner?style=social">
+    <img alt="Forks" src="https://img.shields.io/github/forks/ropydev/Github-Profile-Cloner?style=social">
+</div>
 
 <p><b>Github-Profile-Cloner</b> es una herramienta creada en <b>Python</b> para clonar completamente un perfil de <b>Github</b> a otro en cuestion de segundos.</p>
 
